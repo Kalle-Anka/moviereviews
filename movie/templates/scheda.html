@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} About US {% endblock %}
+
+{% block body_class %} about-us {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include 'includes/navigation.html' %}
+
+  <header class="bg-gradient-dark">
+    <div class="page-header min-vh-45" style="background-image: url('{{ ASSETS_ROOT }}/img/bg9.jpg');">
+      <span class="mask bg-gradient-dark opacity-6"></span>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center mx-auto my-auto">
+            <h1 class="text-white">Work with an amazing design</h1>
+            <p class="lead mb-4 text-white opacity-8">We’re constantly trying to express ourselves and actualize our dreams. If you have the opportunity to play this game</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+    <!-- -------- START Features w/ pattern background & stats & rocket -------- -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7 mb-5">
+            <div class="icon icon-shape icon-md bg-gradient-primary shadow text-center mb-3">
+              <i class="material-icons opacity-10">supervisor_account</i>
+            </div>
+            <h3>{% trans "Le nostre guide" %}</h3>
+            <p>This is the paragraph where you can write more details about your team. Keep you user engaged by providing meaningful information.</p>
+          </div>
+        </div>
+        <div class="row mt-5">
+    {% for movie in movies %}
+          <div class="col-lg-4 col-md-6 mt-md-0 mt-5 ">
+            <div class="card card-profile card-plain ">
+              <div class="text-start mt-n5 z-index-1">
+                <div class="position-relative w-25">
+                  <div class="blur-shadow-avatar">
+                    <img class="avatar avatar-xxl border-radius-xl" src="{{ movie.image.url }}" alt="{{ movie.title }}">
+                  </div>
+                </div>
+              </div>
+              <div class="card-body ps-0">
+                <a href="{% url 'detail' movie.id %}">
+                  <h5 class="mb-0">{{ movie.title | capfirst }}</h5>
+                </a>
+                <p class="text-muted">CEO / Co-Founder</p>
+                <p>
+                  {{ movie.description }}
+                </p>
+                <div class="rating mt-3">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </div>
+                <button type="button" class="btn-icon-only btn-simple btn btn-lg btn-twitter" data-toggle="tooltip" data-placement="bottom" title="Follow me!">
+                  <i class="fab fa-twitter"></i>
+                </button>
+                <button type="button" class="btn-icon-only btn-simple btn btn-lg btn-dribbble" data-toggle="tooltip" data-placement="bottom" title="Follow me!">
+                  <i class="fab fa-dribbble"></i>
+                </button>
+                <button type="button" class="btn-icon-only btn-simple btn btn-lg btn-linkedin" data-toggle="tooltip" data-placement="bottom" title="Follow me!">
+                  <i class="fab fa-linkedin"></i>
+                </button>
+                <br class="mb-5">
+              </div>
+            </div>
+          </div>
+    {% endfor %}
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <script>
+    // get the element to animate
+    var element = document.getElementById('count-stats');
+    var elementHeight = element.clientHeight;
+
+    // listen for scroll event and call animate function
+
+    document.addEventListener('scroll', animate);
+
+    // check if element is in view
+    function inView() {
+      // get window height
+      var windowHeight = window.innerHeight;
+      // get number of pixels that the document is scrolled
+      var scrollY = window.scrollY || window.pageYOffset;
+      // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+      var scrollPosition = scrollY + windowHeight;
+      // get element position (distance from the top of the page to the bottom of the element)
+      var elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight;
+
+      // is scroll position greater than element position? (is element in view?)
+      if (scrollPosition > elementPosition) {
+        return true;
+      }
+
+      return false;
+    }
+
+    var animateComplete = true;
+    // animate element when it is in view
+    function animate() {
+
+      // is element in view?
+      if (inView()) {
+        if (animateComplete) {
+          if (document.getElementById('state1')) {
+            const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+            if (!countUp.error) {
+              countUp.start();
+            } else {
+              console.error(countUp.error);
+            }
+          }
+          if (document.getElementById('state2')) {
+            const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+            if (!countUp1.error) {
+              countUp1.start();
+            } else {
+              console.error(countUp1.error);
+            }
+          }
+          if (document.getElementById('state3')) {
+            const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+            if (!countUp2.error) {
+              countUp2.start();
+            } else {
+              console.error(countUp2.error);
+            };
+          }
+          animateComplete = false;
+        }
+      }
+    }
+
+    if (document.getElementById('typed')) {
+      var typed = new Typed("#typed", {
+        stringsElement: '#typed-strings',
+        typeSpeed: 90,
+        backSpeed: 90,
+        backDelay: 200,
+        startDelay: 500,
+        loop: true
+      });
+    }
+  </script>
+
+  <script>
+    if (document.getElementsByClassName('page-header')) {
+      window.onscroll = debounce(function() {
+        var scrollPosition = window.pageYOffset;
+        var bgParallax = document.querySelector('.page-header');
+        var oVal = (window.scrollY / 3);
+        bgParallax.style.transform = 'translate3d(0,' + oVal + 'px,0)';
+      }, 6);
+    }
+  </script>
+
+{% endblock javascripts %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Pagina Home{% endblock title %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+  <header class="header-2">
+    <div class="page-header min-vh-75 relative" style="background-image: url('.{% static 'assets' %}/img/bg2.jpg')">
+      <span class="mask bg-gradient-info opacity-3"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="text-white pt-3 mt-n5">{% trans "Cerca la tua guida turistica" %}</h1>
+            <p class="lead text-white mt-3">Free & Open Source Web UI Kit built over Bootstrap 5. <br /> Join over 1.6 million developers around the world. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+
+    <section class="py-3 ">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 me-auto">
+            <h4 class="title">{% trans "Cerca la tua guida..." %}</h4>
+            <p class="description">
+              {% trans "Inserisci un termine di ricerca come Paese, Località, Attrazione" %}
+            </p>
+          </div>
+          <div class="col-lg-6 d-flex justify-content-center flex-column ms-auto">
+            <form action="{% url 'scheda' %}">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="input-group input-group-outline">
+                    <label class="form-label"></label>
+                    <input class="form-control" type="text" name="searchMovie">
+                  </div>
+                </div>
+                <div class="col-sm-4 ps-0">
+                  <button type="submit" class="btn bg-gradient-primary w-100">{% trans "Cerca" %}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+{% endblock content %}

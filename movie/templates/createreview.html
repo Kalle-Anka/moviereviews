@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} About US {% endblock %}
+
+{% block body_class %} about-us {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include 'includes/navigation.html' %}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div>
+            <div class="card-body">
+                <h5 class="card-title">Add Review for {{ movie.title }}</h5>
+                {% if error %}
+                <div class="alert alert-danger mt-3" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+                <p class="card-text">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">
+                        Add Reviews
+                    </button>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
