@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block title %} About US {% endblock %}
 
 {% block body_class %} about-us {% endblock %}
@@ -9,28 +9,39 @@
 
 {% block content %}
 
-  {% include 'includes/navigation.html' %}
-<div class="card mb-3">
-    <div class="row g-0">
-        <div>
-            <div class="card-body">
-                <h5 class="card-title">Add Review for {{ movie.title }}</h5>
+<section>
+  <div class="container py-4 ">
+    <div class="row">
+      <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+        <h3 class="text-center">{% trans "Aggiungi una recensione" %} {{ movie.title }}</h3>
                 {% if error %}
-                <div class="alert alert-danger mt-3" role="alert">
+                <div class="alert alert-primary text-white font-weight-bold" role="alert">
                     {{ error }}
                 </div>
                 {% endif %}
-                <p class="card-text">
-                <form method="POST">
+        <form role="form" id="contact-form" method="POST" autocomplete="off">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">
-                        Add Reviews
-                    </button>
-                </form>
-                </p>
+          <div class="card-body">
+            <div class="input-group mb-4 input-group-static">
+              <label>{% trans "Commento" %}</label>
+              <textarea name="text" class="form-control" id="message" rows="4"></textarea>
             </div>
-        </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-check form-switch mb-4 d-flex align-items-center">
+                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"  name="watchAgain" required>
+                  <label class="form-check-label ms-3 mb-0" for="flexSwitchCheckDefault">I agree to the <a href="javascript:;" class="text-dark"><u>Terms and Conditions</u></a>.</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary w-100">{% trans "Aggiungi revisione" %} </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
+</section>
+
 {% endblock content %}
