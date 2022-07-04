@@ -6,7 +6,6 @@ class ReviewForm(ModelForm):
         super(ModelForm, self).__init__(*args, **kwargs)
         self.fields['text'].widget.attrs.update({'class': 'form-control'})
         self.fields['watchAgain'].widget.attrs.update({'class': 'form-check-input'})
-        self.fields['watchAgain'].widget.attrs.update({'name': 'pippo'})
     class Meta:
         model = Review
         fields = ['text', 'watchAgain']

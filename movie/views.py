@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, redirect
 from .models import Movie, Review
 from .forms import ReviewForm
 
-# Create your views here.
 
+# Home page.
 def home(request):
     searchTerm = request.GET.get('searchMovie')
     movies = Movie.objects.all()
@@ -18,19 +18,29 @@ def signup(request):
     email = request.GET.get('email')
     return render(request, 'signup.html', {'email':email})
 
+# Elenco guide turistiche.
 def scheda(request):
     searchTerm = request.GET.get('searchMovie')
     if searchTerm:
         movies = Movie.objects.filter(title__icontains=searchTerm)
     else:
         movies = Movie.objects.all()
-    return render(request, 'scheda.html', {'searchTerm': searchTerm, 'movies': movies})
+    return render(request, 'scheda.html', {'searchTerm': searchTerm, 'movies': movies},)
 
+# Dettaglio guida turistica.
 def detail(request, movie_id):
     movie = get_object_or_404(Movie,pk=movie_id)
     reviews = Review.objects.filter(movie=movie)
-    return render(request, 'detail.html', {'movie':movie,'reviews':reviews})
+    count = Review.objects.filter(movie=movie).count()
+    if count == 0:
+        errore = 'Ancora nessuna recensione.'
+    else:
+        errore = 'Ecco le recensione degli utenti'
+    return render(request, 'detail.html', {'movie': movie, 'reviews': reviews, 'Errore': errore})
 
+
+
+# Recensione guida turistica.
 def createreview(request, movie_id):
     movie = get_object_or_404(Movie,pk=movie_id)
     if request.method == 'GET':
@@ -44,5 +54,17 @@ def createreview(request, movie_id):
             newReview.save()
             return redirect('detail', newReview.movie.id)
         except ValueError:
-            return render(request, 'createreview.html',
-                          {'form': ReviewForm(), 'error': 'bad data passed in '})
+            return render(request, 'createreview.html', {'form': ReviewForm(), 'error': 'bad data passed in '})
+
+def updatereview(request, review_id):
+    review = get_object_or_404(Review,pk=review_id,user=request.user)
+    if request.method == 'GET':
+        form = ReviewForm(instance=review)
+        return render(request, 'updatereview.html',{'review': review,'form':form,})
+    else:
+        try:
+            form = ReviewForm(request.POST,instance=review)
+            form.save()
+            return redirect('detail', review.movie.id)
+        except ValueError:
+            return render(request,'updatereview.html',{'review': review,'form':form,'error':'Bad data in form'})

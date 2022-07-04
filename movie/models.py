@@ -22,3 +22,4 @@ class Review(models.Model):
     watchAgain = models.BooleanField()
     def __str__(self):
         return self.text
+

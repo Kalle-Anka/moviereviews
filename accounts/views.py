@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.db import IntegrityError
 
 
-# Create your views here.
+# Registrazione utente - Visitatore
 def signupaccount(request):
     if request.method == 'GET':
         return render(request, 'signupaccount.html', {'form': UserCreateForm})
@@ -26,11 +26,13 @@ def signupaccount(request):
             return render(request, 'signupaccount.html', {'form': UserCreateForm, 'error': 'Passwords do not match'})
 
 
+# Logout utente - Visitatore
 def logoutaccount(request):
     logout(request)
     return redirect('home')
 
 
+# Login utente - Visitatore
 def loginaccount(request):
     if request.method == 'GET':
         return render(request, 'loginaccount.html',{'form': AuthenticationForm})
@@ -45,5 +47,6 @@ def loginaccount(request):
             login(request, user)
             return redirect('home')
 
+# Modifica utente - Visitatore
 def profile(request):
     return render(request, 'profilo.html', )
